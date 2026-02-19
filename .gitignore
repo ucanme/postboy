@@ -1,0 +1,62 @@
+# Rust
+/target
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Debug
+debug/
+target/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# GPUI / Zed specific
+.local/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+postboy.db*
+data/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+/dist
+/out
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test coverage
+*.profraw
+*.profdata
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# SQLite
+*.sqlite
+*.sqlite3
+
+# Output files
+postboy
+postboy.exe
