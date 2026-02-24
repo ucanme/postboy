@@ -4,11 +4,12 @@
 //! Designed for offline-first with future cloud sync compatibility.
 
 use sqlx::{SqlitePool, sqlite::Sqlite};
+use sqlx::Row;
 use std::sync::Arc;
 use anyhow::Result;
 
 use crate::{StoreError, StoreResult};
-use models::{Id, Timestamp, new_id, now};
+use postboy_models::{Id, Timestamp, new_id, now};
 
 /// Main database interface for Postboy
 #[derive(Clone)]
@@ -42,6 +43,7 @@ impl Database {
         sqlx::query("SELECT 1")
             .fetch_one(self.pool())
             .await
+            .map(|_| ())
             .map_err(|e| StoreError::Database(e).into())
     }
 
@@ -100,6 +102,7 @@ impl Database {
         sqlx::query("VACUUM")
             .execute(self.pool())
             .await
+            .map(|_| ())
             .map_err(|e| StoreError::Database(e).into())
     }
 
@@ -108,6 +111,7 @@ impl Database {
         sqlx::query("ANALYZE")
             .execute(self.pool())
             .await
+            .map(|_| ())
             .map_err(|e| StoreError::Database(e).into())
     }
 
@@ -136,7 +140,7 @@ impl Database {
                 "name": name,
                 "description": description,
                 "info": serde_json::from_str::<serde_json::Value>(&info).unwrap_or_default(),
-                "auth": auth.and_then(|a| serde_json::from_str(&a).ok()),
+                "auth": auth.and_then(|a| serde_json::from_str::<serde_json::Value>(&a).ok()),
                 "sync_state": serde_json::from_str::<serde_json::Value>(&sync_state).unwrap_or_default(),
                 "ui_state": serde_json::from_str::<serde_json::Value>(&ui_state).unwrap_or_default(),
                 "created_at": created_at,
@@ -180,7 +184,7 @@ impl Database {
                 "headers": serde_json::from_str::<Vec<serde_json::Value>>(&headers).unwrap_or_default(),
                 "query_params": serde_json::from_str::<Vec<serde_json::Value>>(&query_params).unwrap_or_default(),
                 "body": serde_json::from_str::<serde_json::Value>(&body).unwrap_or_default(),
-                "auth": auth.and_then(|a| serde_json::from_str(&a).ok()),
+                "auth": auth.and_then(|a| serde_json::from_str::<serde_json::Value>(&a).ok()),
                 "script": serde_json::from_str::<serde_json::Value>(&script).unwrap_or_default(),
                 "ui_state": serde_json::from_str::<serde_json::Value>(&ui_state).unwrap_or_default(),
                 "created_at": created_at,
@@ -263,8 +267,9 @@ impl Database {
         // Import environments
         if let Some(envs) = data.get("environments").and_then(|v| v.as_array()) {
             for env in envs {
+                let default_id = new_id().to_string();
                 let id = env.get("id").and_then(|v| v.as_str())
-                    .unwrap_or_else(|| new_id().to_string());
+                    .unwrap_or(&default_id);
                 let name = env.get("name").and_then(|v| v.as_str())
                     .ok_or_else(|| StoreError::InvalidData("Environment name missing".into()))?;
                 let variables = serde_json::to_string(env.get("variables").unwrap_or(&serde_json::json!([])))
@@ -290,8 +295,9 @@ impl Database {
         // Import collections
         if let Some(collections) = data.get("collections").and_then(|v| v.as_array()) {
             for collection in collections {
+                let default_id = new_id().to_string();
                 let id = collection.get("id").and_then(|v| v.as_str())
-                    .unwrap_or_else(|| new_id().to_string());
+                    .unwrap_or(&default_id);
                 let name = collection.get("name").and_then(|v| v.as_str())
                     .ok_or_else(|| StoreError::InvalidData("Collection name missing".into()))?;
                 let description = collection.get("description").and_then(|v| v.as_str());
@@ -332,8 +338,9 @@ impl Database {
         // Import requests
         if let Some(requests) = data.get("requests").and_then(|v| v.as_array()) {
             for request in requests {
+                let default_id = new_id().to_string();
                 let id = request.get("id").and_then(|v| v.as_str())
-                    .unwrap_or_else(|| new_id().to_string());
+                    .unwrap_or(&default_id);
                 let collection_id = request.get("collection_id").and_then(|v| v.as_str());
                 let folder_id = request.get("folder_id").and_then(|v| v.as_str());
                 let name = request.get("name").and_then(|v| v.as_str())

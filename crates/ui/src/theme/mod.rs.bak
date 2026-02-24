@@ -1,0 +1,392 @@
+//! Theme definitions for Postboy UI
+//!
+//! Provides color palettes, typography, and design tokens
+//! for both light and dark themes.
+
+use gpui::{rgba, Rgba};
+
+/// Theme mode
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ThemeMode {
+    Light,
+    Dark,
+}
+
+impl ThemeMode {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            ThemeMode::Light => "light",
+            ThemeMode::Dark => "dark",
+        }
+    }
+}
+
+/// Color palette
+#[derive(Debug, Clone, Copy)]
+pub struct Colors {
+    // Primary colors
+    pub primary: Rgba,
+    pub primary_hover: Rgba,
+    pub primary_active: Rgba,
+
+    // Accent colors
+    pub accent: Rgb,
+    pub accent_blue: Rgb,
+    pub accent_green: Rgb,
+    pub accent_yellow: Rgb,
+    pub accent_orange: Rgb,
+    pub accent_red: Rgb,
+    pub accent_purple: Rgb,
+
+    // Background
+    pub background: Rgb,
+    pub background_elevated: Rgb,
+    pub background_sunken: Rgb,
+
+    // Surface
+    pub surface: Rgb,
+    pub surface_hover: Rgb,
+    pub surface_active: Rgb,
+
+    // Border
+    pub border: Rgb,
+    pub border_focus: Rgb,
+    pub border_muted: Rgb,
+
+    // Text
+    pub text: Rgb,
+    pub text_muted: Rgb,
+    pub text_placeholder: Rgb,
+    pub text_disabled: Rgb,
+    pub text_inverse: Rgb,
+
+    // Status
+    pub success: Rgb,
+    pub warning: Rgb,
+    pub error: Rgb,
+    pub info: Rgb,
+
+    // HTTP method colors
+    pub method_get: Rgb,
+    pub method_post: Rgb,
+    pub method_put: Rgb,
+    pub method_delete: Rgb,
+    pub method_patch: Rgb,
+    pub method_head: Rgb,
+    pub method_options: Rgb,
+}
+
+impl Colors {
+    /// Dark theme color palette (default)
+    pub fn dark() -> Self {
+        Self {
+            // Primary
+            primary: rgb(0x007acc),
+            primary_hover: rgb(0x1f8ad2),
+            primary_active: rgb(0x0060a0),
+
+            // Accent
+            accent: rgb(0x007acc),
+            accent_blue: rgb(0x4ec9b0),
+            accent_green: rgb(0x89d185),
+            accent_yellow: rgb(0xdcaco5),
+            accent_orange: rgb(0xce9178),
+            accent_red: rgb(0xf44747),
+            accent_purple: rgb(0xb07bf8),
+
+            // Background
+            background: rgb(0x1e1e1e),
+            background_elevated: rgb(0x252526),
+            background_sunken: rgb(0x1a1a1a),
+
+            // Surface
+            surface: rgb(0x2d2d30),
+            surface_hover: rgb(0x3c3c3c),
+            surface_active: rgb(0x404040),
+
+            // Border
+            border: rgb(0x404040),
+            border_focus: rgb(0x007acc),
+            border_muted: rgb(0x3c3c3c),
+
+            // Text
+            text: rgb(0xcccccc),
+            text_muted: rgb(0x858585),
+            text_placeholder: rgb(0x6a6a6a),
+            text_disabled: rgb(0x4c4c4c),
+            text_inverse: rgb(0x1e1e1e),
+
+            // Status
+            success: rgb(0x89d185),
+            warning: rgb(0xdcaco5),
+            error: rgb(0xf44747),
+            info: rgb(0x4ec9b0),
+
+            // HTTP methods
+            method_get: rgb(0x4ec9b0),
+            method_post: rgb(0x569cd6),
+            method_put: rgb(0xdcdcaa),
+            method_delete: rgb(0xf44747),
+            method_patch: rgb(0xce9178),
+            method_head: rgb(0x808080),
+            method_options: rgb(0x808080),
+        }
+    }
+
+    /// Light theme color palette
+    pub fn light() -> Self {
+        Self {
+            // Primary
+            primary: rgb(0x0066cc),
+            primary_hover: rgb(0x0052a3),
+            primary_active: rgb(0x0078f0),
+
+            // Accent
+            accent: rgb(0x0066cc),
+            accent_blue: rgb(0x007acc),
+            accent_green: rgb(0x4caf50),
+            accent_yellow: rgb(0xffc107),
+            accent_orange: rgb(0xff9800),
+            accent_red: rgb(0xf44336),
+            accent_purple: rgb(0x9c27b0),
+
+            // Background
+            background: rgb(0xffffff),
+            background_elevated: rgb(0xf5f5f5),
+            background_sunken: rgb(0xfafafa),
+
+            // Surface
+            surface: rgb(0xffffff),
+            surface_hover: rgb(0xf0f0f0),
+            surface_active: rgb(0xe8e8e8),
+
+            // Border
+            border: rgb(0xe0e0e0),
+            border_focus: rgb(0x0066cc),
+            border_muted: rgb(0xd0d0d0),
+
+            // Text
+            text: rgb(0x333333),
+            text_muted: rgb(0x666666),
+            text_placeholder: rgb(0x999999),
+            text_disabled: rgb(0xbdbdbd),
+            text_inverse: rgb(0xffffff),
+
+            // Status
+            success: rgb(0x4caf50),
+            warning: rgb(0xffc107),
+            error: rgb(0xf44336),
+            info: rgb(0x2196f3),
+
+            // HTTP methods
+            method_get: rgb(0x008000),
+            method_post: rgb(0x0066cc),
+            method_put: rgb(0xff8c00),
+            method_delete: rgb(0xdc143c),
+            method_patch: rgb(0xff6347),
+            method_head: rgb(0x696969),
+            method_options: rgb(0x696969),
+        }
+    }
+}
+
+impl Default for Colors {
+    fn default() -> Self {
+        Self::dark()
+    }
+}
+
+/// Typography settings
+#[derive(Debug, Clone)]
+pub struct Typography {
+    /// Font family for UI text
+    pub ui_font_family: &'static str,
+
+    /// Font family for code/monospace text
+    pub mono_font_family: &'static str,
+
+    /// Base font size in pixels
+    pub base_size: f32,
+
+    /// Small font size
+    pub small_size: f32,
+
+    /// Large font size
+    pub large_size: f32,
+
+    /// Line height multiplier
+    pub line_height: f32,
+}
+
+impl Default for Typography {
+    fn default() -> Self {
+        Self {
+            ui_font_family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+            mono_font_family: "'Menlo', 'Monaco', 'Courier New', monospace",
+            base_size: 13.0,
+            small_size: 11.0,
+            large_size: 16.0,
+            line_height: 1.5,
+        }
+    }
+}
+
+/// Spacing scale
+#[derive(Debug, Clone, Copy)]
+pub struct Spacing {
+    pub unit: f32,
+    pub xxs: f32,
+    pub xs: f32,
+    pub sm: f32,
+    pub md: f32,
+    pub lg: f32,
+    pub xl: f32,
+    pub xxl: f32,
+}
+
+impl Default for Spacing {
+    fn default() -> Self {
+        Self {
+            unit: 4.0,
+            xxs: 4.0,   // 1x
+            xs: 8.0,    // 2x
+            sm: 12.0,   // 3x
+            md: 16.0,   // 4x
+            lg: 24.0,   // 6x
+            xl: 32.0,   // 8x
+            xxl: 48.0,  // 12x
+        }
+    }
+}
+
+/// Border radius
+#[derive(Debug, Clone, Copy)]
+pub struct Radius {
+    pub sm: f32,
+    pub md: f32,
+    pub lg: f32,
+    pub full: f32,
+}
+
+impl Default for Radius {
+    fn default() -> Self {
+        Self {
+            sm: 2.0,
+            md: 4.0,
+            lg: 8.0,
+            full: 9999.0,
+        }
+    }
+}
+
+/// Complete theme definition
+#[derive(Debug, Clone)]
+pub struct Theme {
+    pub mode: ThemeMode,
+    pub colors: Colors,
+    pub typography: Typography,
+    pub spacing: Spacing,
+    pub radius: Radius,
+}
+
+impl Theme {
+    /// Create a new dark theme
+    pub fn dark() -> Self {
+        Self {
+            mode: ThemeMode::Dark,
+            colors: Colors::dark(),
+            typography: Typography::default(),
+            spacing: Spacing::default(),
+            radius: Radius::default(),
+        }
+    }
+
+    /// Create a new light theme
+    pub fn light() -> Self {
+        Self {
+            mode: ThemeMode::Light,
+            colors: Colors::light(),
+            typography: Typography::default(),
+            spacing: Spacing::default(),
+            radius: Radius::default(),
+        }
+    }
+}
+
+impl Default for Theme {
+    fn default() -> Self {
+        Self::dark()
+    }
+}
+
+/// Get the current theme (can be made dynamic later)
+pub fn get_theme() -> Theme {
+    Theme::dark()
+}
+
+/// Get method color for HTTP method highlighting
+pub fn get_method_color(method: &str) -> Rgb {
+    let theme = get_theme();
+    match method.to_uppercase().as_str() {
+        "GET" => theme.colors.method_get,
+        "POST" => theme.colors.method_post,
+        "PUT" => theme.colors.method_put,
+        "DELETE" => theme.colors.method_delete,
+        "PATCH" => theme.colors.method_patch,
+        "HEAD" => theme.colors.method_head,
+        "OPTIONS" => theme.colors.method_options,
+        _ => theme.colors.text_muted,
+    }
+}
+
+/// Get status color for HTTP status codes
+pub fn get_status_color(status: u16) -> Rgb {
+    let theme = get_theme();
+    match status {
+        200..299 => theme.colors.success,
+        300..399 => theme.colors.info,
+        400..499 => theme.colors.warning,
+        500..599 => theme.colors.error,
+        _ => theme.colors.text_muted,
+    }
+}
+
+/// Initialize the theme system
+pub fn init(_cx: &mut gpui::WindowContext) {
+    // Theme initialization can be done here
+    // For now, we use the default dark theme
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_dark_theme_colors() {
+        let theme = Theme::dark();
+        assert_eq!(theme.mode, ThemeMode::Dark);
+        assert_eq!(theme.colors.primary, rgb(0x007acc));
+    }
+
+    #[test]
+    fn test_light_theme_colors() {
+        let theme = Theme::light();
+        assert_eq!(theme.mode, ThemeMode::Light);
+        assert_eq!(theme.colors.background, rgb(0xffffff));
+    }
+
+    #[test]
+    fn test_method_colors() {
+        assert_eq!(get_method_color("GET"), rgb(0x4ec9b0));
+        assert_eq!(get_method_color("POST"), rgb(0x569cd6));
+        assert_eq!(get_method_color("DELETE"), rgb(0xf44747));
+    }
+
+    #[test]
+    fn test_status_colors() {
+        assert_eq!(get_status_color(200), rgb(0x89d185)); // success
+        assert_eq!(get_status_color(301), rgb(0x4ec9b0)); // info
+        assert_eq!(get_status_color(404), rgb(0xdcaco5)); // warning
+        assert_eq!(get_status_color(500), rgb(0xf44747)); // error
+    }
+}

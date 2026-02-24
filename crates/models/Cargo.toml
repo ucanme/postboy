@@ -2,12 +2,17 @@
 name = "postboy-models"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }
 uuid = { workspace = true }
 chrono = { workspace = true }
+rand = "0.8"
+regex = { workspace = true }
+url = { workspace = true }
+thiserror = { workspace = true }
 
 [dev-dependencies]
 serde_test = "1.0"

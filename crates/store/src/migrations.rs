@@ -2,7 +2,7 @@
 
 use sqlx::{Pool, Sqlite, SqlitePool, migrate::MigrateDatabase};
 use std::path::Path;
-use anyhow::Result;
+use anyhow::{Result, Context};
 
 /// Run all database migrations
 pub async fn run_migrations(pool: &SqlitePool) -> Result<()> {

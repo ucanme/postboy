@@ -1,10 +1,11 @@
 [package]
-name = "store"
+name = "postboy-store"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
-models = { path = "../models" }
+postboy-models = { workspace = true }
 
 # Async runtime
 tokio = { workspace = true }

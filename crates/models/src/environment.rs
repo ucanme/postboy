@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use uuid::Uuid;
 
 use crate::{Id, Timestamp, new_id, now, Temporal, Identifiable};
 
@@ -162,8 +163,8 @@ impl Variable {
     pub fn secret(key: String, value: String) -> Self {
         Self {
             key,
-            value,
-            initial_value: Some(value.clone()),
+            value: value.clone(),
+            initial_value: Some(value),
             enabled: true,
             variable_type: VariableType::Secret,
             description: None,

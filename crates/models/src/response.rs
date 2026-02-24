@@ -66,7 +66,7 @@ impl Response {
             status_code: 0,
             status_text: "Error".to_string(),
             headers: Vec::new(),
-            body: ResponseBody::Text(message),
+            body: ResponseBody::Text(message.clone()),
             duration_ms: 0,
             size: 0,
             cookies: Vec::new(),

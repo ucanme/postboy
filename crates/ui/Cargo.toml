@@ -1,11 +1,21 @@
 [package]
-name = "ui"
+name = "postboy-ui"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
-gpui.workspace = true
-serde.workspace = true
-serde_json.workspace = true
-models = { path = "../models" }
-store = { path = "../store" }
+gpui = { workspace = true }
+gpui-component = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+postboy-models = { workspace = true }
+postboy-store = { workspace = true }
+postboy-service = { workspace = true }
+tokio = { workspace = true }
+anyhow = { workspace = true }
+chrono = "0.4"
+percent-encoding = "2.3"
+base64 = "0.22"
+
+[dev-dependencies]

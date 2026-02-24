@@ -1,7 +1,8 @@
 [package]
-name = "service"
+name = "postboy-service"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
 
 [dependencies]
 # Workspace dependencies
@@ -17,7 +18,8 @@ anyhow = { workspace = true }
 tracing = { workspace = true }
 
 # Local crates
-models = { path = "../models" }
+postboy-models = { workspace = true }
+postboy-store = { workspace = true }
 
 [dev-dependencies]
 tokio-test = "0.4"

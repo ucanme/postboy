@@ -170,7 +170,7 @@ impl FileField {
 }
 
 /// Request body types
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "mode", rename_all = "lowercase")]
 pub enum RequestBody {
     None,
@@ -179,6 +179,12 @@ pub enum RequestBody {
     UrlEncoded { urlencoded: Vec<FormField> },
     Raw { raw: String, language: Option<String> },
     Binary,
+}
+
+impl Default for RequestBody {
+    fn default() -> Self {
+        Self::None
+    }
 }
 
 impl RequestBody {
@@ -238,7 +244,7 @@ impl RequestBody {
         }
     }
 
-    pub fn get_json(&self) -> Option<&serde_json::Value> {
+    pub fn get_json(&self) -> Option<serde_json::Value> {
         match self {
             RequestBody::Json { raw } => serde_json::from_str(raw).ok(),
             _ => None,
@@ -453,7 +459,7 @@ impl Url {
     }
 
     pub fn parse(raw: String) -> Result<Self, String> {
-        let parsed = url::Url::parse(&raw).map_err(|e| e.to_string())?;
+        let parsed = url::Url::parse(&raw).map_err(|e: url::ParseError| e.to_string())?;
 
         Ok(Self {
             raw,
@@ -468,7 +474,7 @@ impl Url {
 }
 
 /// UI-specific state for requests
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct RequestUiState {
     /// Whether the request is expanded in the sidebar
     pub is_expanded: bool,

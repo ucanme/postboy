@@ -187,7 +187,7 @@ impl Default for SyncStatus {
 }
 
 /// UI-specific state for collections
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct CollectionUiState {
     /// Whether the collection is expanded in the sidebar
     pub is_expanded: bool,

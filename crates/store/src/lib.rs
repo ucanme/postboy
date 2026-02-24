@@ -4,11 +4,12 @@
 //! Designed with an offline-first approach that can be extended for cloud sync.
 
 pub mod database;
-pub mod collections;
-pub mod requests;
-pub mod environments;
-pub mod settings;
 pub mod migrations;
+// TODO: Implement these modules
+// pub mod collections;
+// pub mod requests;
+// pub mod environments;
+// pub mod settings;
 
 use sqlx::{SqlitePool, sqlite::SqliteConnectOptions, sqlite::SqlitePoolOptions};
 use std::path::Path;
@@ -18,7 +19,7 @@ use anyhow::Result;
 pub use database::Database;
 
 /// Re-export commonly used types
-pub use models::{Id, Timestamp, new_id, now};
+pub use postboy_models::{Id, Timestamp, new_id, now};
 
 /// Storage configuration
 #[derive(Debug, Clone)]
@@ -78,8 +79,14 @@ pub async fn open_store(config: StoreConfig) -> Result<Database> {
         }
     }
 
-    // Configure connection options
-    let mut options = SqliteConnectOptions::from_str(db_path)?;
+    // Configure connection options - need sqlite:// prefix for file paths
+    let connection_string = if db_path.starts_with("sqlite://") || db_path.starts_with("sqlite::") {
+        db_path.clone()
+    } else {
+        format!("sqlite://{}", db_path)
+    };
+
+    let mut options = SqliteConnectOptions::from_str(&connection_string)?;
 
     if config.enable_wal {
         options = options.pragma("journal_mode", "WAL");

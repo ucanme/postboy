@@ -1,13 +1,3 @@
-[package]
-name = "postboy"
-version = "0.1.0"
-description = "A Postman-like API testing tool built with Rust and GPUI"
-authors = ["Postboy Contributors"]
-edition = "2021"
-license = "MIT"
-repository = "https://github.com/postboy/postboy"
-readme = "README.md"
-
 [workspace]
 members = ["crates/*"]
 resolver = "2"
@@ -16,11 +6,20 @@ resolver = "2"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.75"
+license = "MIT"
+authors = ["Postboy Contributors"]
 
 [workspace.dependencies]
-# GPUI and UI
-gpui = { git = "https://github.com/zed-industries/zed", branch = "main" }
-ui = { path = "crates/ui" }
+# GPUI and UI - published versions with interaction support
+gpui = "0.2.2"
+gpui-component = "0.5.1"
+postboy-ui = { path = "crates/ui" }
+postboy-models = { path = "crates/models" }
+postboy-store = { path = "crates/store" }
+postboy-service = { path = "crates/service" }
+
+# Application wrapper for gpui-component
+anyhow = "1.0"
 
 # Async runtime
 tokio = { version = "1.35", features = ["full"] }
@@ -53,7 +52,6 @@ tracing-appender = "0.2"
 
 # Error Handling
 thiserror = "1.0"
-anyhow = "1.0"
 
 # Utilities
 regex = "1.10"
@@ -84,6 +82,5 @@ strip = true
 # Optimize GPUI for maximum performance
 gpui = { opt-level = 3 }
 
-[[bin]]
-name = "postboy"
-path = "crates/app/src/main.rs"
+# Try using original font-kit without Zed's fork
+# This should use core-text 15.0 which is compatible with core-graphics 0.24

@@ -3,12 +3,29 @@ name = "postboy-app"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-publish = false
+publish = true
+description = "A Postman-like API testing tool built with Rust and GPUI"
+authors = ["Postboy Contributors"]
+
+[[bin]]
+name = "postboy"
+path = "src/main.rs"
+
+[package.metadata.bundle]
+name = "Postboy"
+identifier = "com.postboy.app"
+icon = []
+version = "0.1.0"
+copyright = "Copyright (c) 2024 Postboy Contributors"
+category = "Developer Tool"
+short_description = "API Testing Tool"
+long_description = "A modern API testing tool built with Rust and GPUI"
 
 [dependencies]
 # UI
 gpui = { workspace = true }
-ui = { workspace = true }
+gpui-component = { workspace = true }
+postboy-ui = { workspace = true }
 
 # Async
 tokio = { workspace = true }
@@ -51,9 +68,9 @@ once_cell = { workspace = true }
 arboard = { workspace = true }
 
 # Local crates
-store = { path = "../store" }
-service = { path = "../service" }
-models = { path = "../models" }
+postboy-store = { workspace = true }
+postboy-service = { workspace = true }
+postboy-models = { workspace = true }
 
 [dev-dependencies]
 tokio-test = "0.4"
